@@ -9,12 +9,13 @@ import { APP_BASE_HREF } from '@angular/common';
 import { AddLocationComponent } from './components/add-location/add-location.component';
 import { LocationForecastComponent } from './components/location-forecast/location-forecast.component';
 import { LocationStatusComponent } from './components/location-status/location-status.component';
-
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   imports: [ 
     BrowserModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   declarations: [ AppComponent, HomePageComponent, ForecastPageComponent, AddLocationComponent, LocationForecastComponent, LocationStatusComponent ],
   bootstrap:    [ AppComponent ],
