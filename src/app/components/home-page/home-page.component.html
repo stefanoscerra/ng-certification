@@ -1,4 +1,6 @@
 <div class="container-fluid">
-  <app-add-location></app-add-location>
-  <app-location-status></app-location-status>
+  <app-add-location (addLocation)="addLocation($event)"></app-add-location>
+  <app-location-status *ngFor="let locationStatus of locationsStatus"
+   [locationStatus]="locationStatus" (remove)="removeLocation(locationStatus.zipCode)">
+  </app-location-status>
 </div>

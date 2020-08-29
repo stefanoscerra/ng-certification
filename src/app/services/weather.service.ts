@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { LocationStatus } from '../models/location-status';
-import { HttpClient } from '@angular/common/http';
+import { OpenWeatherService } from '../openweather/services/open-weather.service';
+import { forkJoin, Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
 export class WeatherService {
   private locationsStorageKey = 'locations';
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private openWeatherService: OpenWeatherService) {
   }
 
   addLocation(locationZipCode: string) {
@@ -37,11 +39,27 @@ export class WeatherService {
     localStorage.setItem(this.locationsStorageKey, JSON.stringify(locations));
   }
 
-  getAllLocationsStatus(): LocationStatus[] {
-    let result = [];
+  getAllLocationsStatus(): Observable<LocationStatus[]> {
     let locations = this.getCurrentSavedLocations();
-    
-    return result;
+    if (!locations.length) {
+      return of([]);
+    }
+
+    let weatherData$ = locations.map(locationZipCode => this.openWeatherService.getCurrentWeatherForZipCode(locationZipCode));
+
+    let locationsStatus = forkJoin(...weatherData$)
+    .pipe(map(
+      weatherData => weatherData.map(locationResponse => <LocationStatus> {
+          zipCode: locationResponse.zipCode,
+          name: locationResponse.data.name,
+          temperature: locationResponse.data.main.temp,
+          minTemp: locationResponse.data.main.temp_min,
+          maxTemp: locationResponse.data.main.temp_max,
+          conditions: locationResponse.data.weather[0].main
+        })
+    ));
+
+    return locationsStatus;
   }
 
 
