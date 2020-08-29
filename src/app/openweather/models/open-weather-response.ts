@@ -1,6 +1,7 @@
-import { OpenWeatherData } from './open-weather-data';
+import { OpenWeatherStatus } from './open-weather-status';
 
 export interface OpenWeatherResponse {
   zipCode: string;
-  data: OpenWeatherData;
+  city: string;
+  data: Array<OpenWeatherStatus>;
 }

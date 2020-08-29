@@ -5,7 +5,7 @@ import { ForecastPageComponent } from './components/forecast-page/forecast-page.
 
 const routes: Routes = [
   {
-    path: 'forecast/:zipcode', component: ForecastPageComponent
+    path: 'forecast/:zipCode', component: ForecastPageComponent
   },
   {
     path: '', component: HomePageComponent

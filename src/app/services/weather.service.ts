@@ -3,6 +3,7 @@ import { LocationStatus } from '../models/location-status';
 import { OpenWeatherService } from '../openweather/services/open-weather.service';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { OpenWeatherResponse } from '../openweather/models/open-weather-response';
 
 @Injectable({
   providedIn: 'root'
@@ -45,22 +46,38 @@ export class WeatherService {
       return of([]);
     }
 
-    let weatherData$ = locations.map(locationZipCode => this.openWeatherService.getCurrentWeatherForZipCode(locationZipCode));
+    let weatherResponses$ = locations.map(locationZipCode => this.openWeatherService.getCurrentWeatherForZipCode(locationZipCode));
 
-    let locationsStatus = forkJoin(...weatherData$)
+    let locationsStatus = forkJoin(...weatherResponses$)
     .pipe(map(
-      weatherData => weatherData.map(locationResponse => <LocationStatus> {
-          zipCode: locationResponse.zipCode,
-          name: locationResponse.data.name,
-          temperature: locationResponse.data.main.temp,
-          minTemp: locationResponse.data.main.temp_min,
-          maxTemp: locationResponse.data.main.temp_max,
-          conditions: locationResponse.data.weather[0].main
+      (weatherResponses: OpenWeatherResponse[]) => weatherResponses.map(weatherResponse => 
+        <LocationStatus> {
+          zipCode: weatherResponse.zipCode,
+          name: weatherResponse.city,
+          timestamp: weatherResponse.data[0].dt,
+          temperature: weatherResponse.data[0].main.temp,
+          minTemp: weatherResponse.data[0].main.temp_min,
+          maxTemp: weatherResponse.data[0].main.temp_max,
+          conditions: weatherResponse.data[0].weather[0].main
         })
     ));
 
     return locationsStatus;
   }
 
+  getLocationForecast(locationZipCode: string): Observable<LocationStatus[]> {
+    return this.openWeatherService.getForecastForZipCode(locationZipCode)
+    .pipe(map(
+      weatherResponse => weatherResponse.data.map(weatherStatus => 
+        <LocationStatus> {
+          zipCode: weatherResponse.zipCode,
+          name: weatherResponse.city,
+          timestamp: weatherStatus.dt,
+          minTemp: weatherStatus.temp.min,
+          maxTemp: weatherStatus.temp.max,
+          conditions: weatherStatus.weather[0].main
+        })
+    ));
+  }
 
 }

@@ -6,11 +6,11 @@
       <h4>Temperatures today:</h4>
       <p>
         Current {{locationStatus.temperature}}
-        - Max {{locationStatus.minTemp}}
-        - Min {{locationStatus.maxTemp}}
+        - Max {{locationStatus.maxTemp}}
+        - Min {{locationStatus.minTemp}}
       </p>
       <p>
-        <a href="/forecast/95742">Show 5-day forecast for Rancho Cordova</a>
+        <a [routerLink]="['/forecast', locationStatus.zipCode]">Show 5-day forecast for {{locationStatus.name}}</a>
       </p>
     </div>
     <div>

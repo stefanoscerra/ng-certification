@@ -1,1 +1,4 @@
-<app-location-forecast></app-location-forecast>
+<div class="container-fluid">
+    <app-location-forecast *ngIf="forecast" [forecast]="forecast"></app-location-forecast>
+    <button [routerLink]="['/']" class="btn btn-success" tabindex="0" id="mainPageBtn">&lt; Back to main page</button>
+</div>
