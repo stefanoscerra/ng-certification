@@ -15,7 +15,7 @@
     </div>
     <div>
       <span class="close" (click)="onRemoveClick()">×</span>
-      <img src="https://www.angulartraining.com/images/weather/sun.png">
+      <app-weather-icon [conditions]="locationStatus.conditions"></app-weather-icon>      
     </div>
   </div>
 </div>

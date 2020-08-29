@@ -10,6 +10,7 @@ import { AddLocationComponent } from './components/add-location/add-location.com
 import { LocationForecastComponent } from './components/location-forecast/location-forecast.component';
 import { LocationStatusComponent } from './components/location-status/location-status.component';
 import { HttpClientModule } from '@angular/common/http';
+import { WeatherIconComponent } from './components/weather-icon/weather-icon.component';
 @NgModule({
   imports: [ 
     BrowserModule,
@@ -17,7 +18,15 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     HttpClientModule
   ],
-  declarations: [ AppComponent, HomePageComponent, ForecastPageComponent, AddLocationComponent, LocationForecastComponent, LocationStatusComponent ],
+  declarations: [ 
+    AppComponent, 
+    HomePageComponent, 
+    ForecastPageComponent, 
+    AddLocationComponent, 
+    LocationForecastComponent, 
+    LocationStatusComponent, 
+    WeatherIconComponent
+  ],
   bootstrap:    [ AppComponent ],
   providers: [
     {
