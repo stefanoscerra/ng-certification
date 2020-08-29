@@ -17,6 +17,7 @@ export class AddLocationComponent implements OnInit {
 
   onAddLocationClick() {
     this.addLocation.emit(this.zipCode);
+    this.zipCode = null;
   }
 
 }

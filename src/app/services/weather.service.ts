@@ -16,8 +16,10 @@ export class WeatherService {
 
   addLocation(locationZipCode: string) {
     let locations = this.getCurrentSavedLocations();
-    locations.push(locationZipCode);
-    localStorage.setItem(this.locationsStorageKey, JSON.stringify(locations));
+    if (!locations.some(location => location === locationZipCode)) {
+      locations.push(locationZipCode);
+      localStorage.setItem(this.locationsStorageKey, JSON.stringify(locations));
+    }
   }
 
   private getCurrentSavedLocations(): string[] {
@@ -54,7 +56,7 @@ export class WeatherService {
         <LocationStatus> {
           zipCode: weatherResponse.zipCode,
           name: weatherResponse.city,
-          timestamp: weatherResponse.data[0].dt,
+          timestamp: weatherResponse.data[0].dt * 1000,
           temperature: weatherResponse.data[0].main.temp,
           minTemp: weatherResponse.data[0].main.temp_min,
           maxTemp: weatherResponse.data[0].main.temp_max,
@@ -72,7 +74,7 @@ export class WeatherService {
         <LocationStatus> {
           zipCode: weatherResponse.zipCode,
           name: weatherResponse.city,
-          timestamp: weatherStatus.dt,
+          timestamp: weatherStatus.dt * 1000,
           minTemp: weatherStatus.temp.min,
           maxTemp: weatherStatus.temp.max,
           conditions: weatherStatus.weather[0].main

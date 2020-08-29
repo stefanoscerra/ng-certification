@@ -4,8 +4,8 @@
 
   </div>
   <ul class="list-group">
-    <li *ngFor="let dayForecast of forecast" class="list-group-item">
-      {{dayForecast.timestamp * 1000 | date: 'EEEE'}}:
+    <li *ngFor="let dayForecast of forecast" class="list-group-item clearfix">
+      {{dayForecast.timestamp | date: 'EEEE'}}:
       {{dayForecast.conditions}}
       - Min: {{dayForecast.minTemp}}
       - Max: {{dayForecast.maxTemp}}

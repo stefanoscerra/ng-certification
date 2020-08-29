@@ -1,0 +1,8 @@
+.list-group-item {
+    line-height: 45px;
+}
+
+.list-group-item app-weather-icon {
+    height: 45px;
+    float: right;
+}
